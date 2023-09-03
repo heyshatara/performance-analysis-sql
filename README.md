@@ -40,7 +40,7 @@ from purchases
     order by 1
 ```
 - Create a line graph of `num_purchases` by `month`. 
-[insert image]
+<img src="https://i.imgur.com/WwDQ6eXW.png" height="80%" alt="Line Graph - Number of Purchases per Month"/>
 
 # Remove the first column and row
 
@@ -94,6 +94,103 @@ from trials
 	left join purchases
     	on purchases.trial_id = trials.trial_id
 ```
+- Aggregate all the data by the month of the Free Trial start, and calculate the same metrics as before; `num_free_trials`, `num_purchases` and `usd_value`.
+```bash
+with free_trials_and_purchases as (
+	select
+            trials.trial_id
+        ,	trials.free_trial_start_date
+        ,	trials.region
+        ,	purchases.purchase_date
+        ,	purchases.purchase_value
+    from trials
+        left join purchases
+            on purchases.trial_id = trials.trial_id
+)
+
+select
+		date_trunc('month', free_trial_start_date) as month
+    ,	count(*) as num_free_trials
+    ,	count(purchase_date) as num_purchases -- We count how many dates exist to see how many purchases occurred.
+    ,	sum(purchase_value) as usd_value
+from free_trials_and_purchases
+        group by 1
+        order by 1
+```
+<h2>💱Free Trial Value Calculation</h2>
+Calculate an average value per Free Trial per month using the Cohort table previously created.
+- Take the previous aggregation and create an additional metric called `cohort_value_per_free_trial` by dividing `purchase_value` by `num_free_trials`.
+```bash
+with free_trials_and_purchases as (
+	select
+            trials.trial_id
+        ,	trials.free_trial_start_date
+        ,	trials.region
+        ,	purchases.purchase_date
+        ,	purchases.purchase_value
+    from trials
+        left join purchases
+            on purchases.trial_id = trials.trial_id
+)
+
+,	summary_by_month as (
+    select
+            date_trunc('month', free_trial_start_date) as month
+        ,	count(*) as num_free_trials
+        ,	count(purchase_date) as num_purchases
+        ,	sum(purchase_value) as usd_value
+    from free_trials_and_purchases
+            group by 1
+)
+
+select
+		month
+	,	num_free_trials
+    ,	num_purchases
+    ,	usd_value
+    ,	(usd_value::float) / (nullif(num_free_trials, 0)::float) as cohort_value_per_free_trial -- It's important to avoid dividing by Zero, so we replace any zero values in the denominator with NULL. We also convert to FLOAT before dividing to ensure that the result is accurate.
+from summary_by_month
+	order by 1 -- Order By only matters on the last statement.
+```
+<h2>💱Dimensional Breakdown</h2>
+Break down average value per Free Trial by Region and analyze differences in values.
+- Introduce and group by the additional dimension: `region`. Call the resultant table `cohort_value_by_month_and_region.
+```bash
+with free_trials_and_purchases as (
+	select
+            trials.trial_id
+        ,	trials.free_trial_start_date
+        ,	trials.region
+        ,	purchases.purchase_date
+        ,	purchases.purchase_value
+    from trials
+        left join purchases
+            on purchases.trial_id = trials.trial_id
+)
+
+,	summary_by_month as (
+    select
+            date_trunc('month', free_trial_start_date) as month
+    	,	region
+        ,	count(*) as num_free_trials
+        ,	count(purchase_date) as num_purchases
+        ,	sum(purchase_value) as usd_value
+    from free_trials_and_purchases
+            group by 1, 2
+)
+
+select
+		month
+    ,	region
+	,	num_free_trials
+    ,	num_purchases
+    ,	usd_value
+    ,	(usd_value::float) / (nullif(num_free_trials, 0)::float) as cohort_value_per_free_trial
+from summary_by_month
+	order by 1, 2
+```
+- Create a graph of `cohort_value_per_free_trial`.
+<img src="https://i.imgur.com/NEwVyDv.png" height="80%" alt="Line Graph Cohort Value Per Free Trial by Month and Region"/>
 
 <h2>🕹️Visualization of Findings:</h2>
 
@@ -103,7 +200,7 @@ from trials
 - You can see this same dataset as an interactive, geographic visualization [by visiting my Streamlit](https://heyshatara-numpy-airbnb-streamlit-app-gzn89d.streamlit.app/)
 
 - All of the Amsterdam Airbnb listings are shown in red to gauge their proximity to a specific tourist spot shown in blue, which is set as De Hooyer Windmill in Amsterdam:
-<img src="https://i.imgur.com/0ECb6Yf.png" height="80%" alt="Amsterdam AirBnb Proximity Map"/>
+
 
 <!--
  ```diff
