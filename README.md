@@ -205,7 +205,6 @@ from summary_by_month
 
 <h2>🧠Final Thoughts:</h2>
 
-- What % of people who signed up for a free trial actually end up buying the product?
 - The top 3 regions with the highest value per free trial was: Oceania, North America and Europe. (These regions also held the highest purchase price on average compared to other regions in the dataset).
 - Not all regions had the same average purchase price for the product ($184 vs. $200)
 - Free-trial-to-purchase ratio was highest in May (0.5538) and was likely due to the temporary drop in purchase price to $100 (in select regions).
