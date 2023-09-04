@@ -3,7 +3,7 @@
 <img src="https://i.imgur.com/t2nMfMU.png" height="50%" alt="Data Analysis Image by Mohamed Hassan from Pixabay"/>
 
 <h2>🗺️Project Description</h2>
-This is a data analysis portfolio project that aims to analyze marketing data to determine the value of a product's global free trial promotion. The project involves summarizing and aggregating data to calculate key metrics using SQL and a PostgreSQL database.
+This data analysis portfolio project that aims to analyze marketing data to determine the cohort value of a product's global free trial promotion. The project involves summarizing and aggregating data to calculate key metrics using SQL and a PostgreSQL database.
 
 <h2>💻Languages/Libraries and Utilities Used</h2>
 
