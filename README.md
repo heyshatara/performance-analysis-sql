@@ -203,12 +203,13 @@ from summary_by_month
 - Create a graph of `cohort_value_per_free_trial`.
 <img src="https://i.imgur.com/NEwVyDv.png" height="80%" alt="Line Graph Cohort Value Per Free Trial by Month and Region"/>
 
-<h2>🕹️Visualization of Findings:</h2>
+<h2>🧠Final Thoughts:</h2>
 
-- A tourist is coming from the U.K. and looking to book an Amsterdam Airbnb in their GBP currency
-<img src="https://i.imgur.com/6am49tZ.png[/img]" height="80%" alt="Amsterdam Dataframe for Recommendation System"/>
-
-- You can see this same dataset as an interactive, geographic visualization [by visiting my Streamlit](https://heyshatara-numpy-airbnb-streamlit-app-gzn89d.streamlit.app/)
+- What % of people who signed up for a free trial actually end up buying the product?
+- The top 3 regions with the highest value per free trial was: Oceania, North America and Europe. (These regions also held the highest purchase price on average compared to other regions in the dataset).
+- Not all regions had the same average purchase price for the product ($184 vs. $200)
+- Free-trial-to-purchase ratio was highest in May (0.5538) and was likely due to the temporary drop in purchase price to $100 (in select regions).
+- Further analysis would need to be done to determine if things like seasonality and other live promotions in the marketing affected the free-trial-to-purchase ratio.
 
  ```diff
 - text in red
