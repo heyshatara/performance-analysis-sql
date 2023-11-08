@@ -210,11 +210,3 @@ from summary_by_month
 - Free-trial-to-purchase ratio was highest in May (0.5538) and was likely due to the temporary drop in purchase price to $100 (in select regions).
 - Further analysis would need to be done to determine if things like seasonality and other live promotions in the marketing affected the free-trial-to-purchase ratio.
 
- ```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
-```
---!>
