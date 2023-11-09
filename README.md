@@ -1,4 +1,4 @@
-# Cohort Analysis in SQL
+# Cohort Analysis of Marketing Campaign Data in SQL
 
 <img src="https://i.imgur.com/t2nMfMU.png" height="50%" alt="Data Analysis Image by Mohamed Hassan from Pixabay"/>
 
